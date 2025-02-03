@@ -204,8 +204,9 @@ if st.button("🎭 Predict Emotion"):
 
                 # st.markdown(f"<div class='suggestion-box'><b>💡 Suggestion:</b> {suggestion}</div>", unsafe_allow_html=True)
                 st.markdown(f"""
-                    <strong>Predicted Emotion:</strong> <div style='text-align: center; font-size: 24px; font-weight: bold; color: {COLOR_MAP[emotion]};'>
-                         {emoji} {emotion}
+                    <div style='text-align: center; font-size: 24px; font-weight: bold;'>
+                        <strong>Predicted Emotion:</strong> 
+                        <span style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</span>
                     </div>
                     <p style='text-align: center; font-size: 20px;'><strong>💡 Suggestion:</strong> {suggestion}</p>
                 """, unsafe_allow_html=True)
