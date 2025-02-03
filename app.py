@@ -196,13 +196,19 @@ if st.button("🎭 Predict Emotion"):
                 emoji = EMOJI_MAP[emotion]
 
 
-                st.markdown(f"""
-                    <div class='result-container' style='border: 2px solid {COLOR_MAP[emotion]}; background-color: #f9f9f9;'>
-                        <h2 style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion.capitalize()}</h2>
-                    </div>
-                """, unsafe_allow_html=True)
+                # st.markdown(f"""
+                #     <div class='result-container' style='border: 2px solid {COLOR_MAP[emotion]}; background-color: #f9f9f9;'>
+                #         <h2 style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion.capitalize()}</h2>
+                #     </div>
+                # """, unsafe_allow_html=True)
 
-                st.markdown(f"<div class='suggestion-box'><b>💡 Suggestion:</b> {suggestion}</div>", unsafe_allow_html=True)
+                # st.markdown(f"<div class='suggestion-box'><b>💡 Suggestion:</b> {suggestion}</div>", unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div style='text-align: center; font-size: 24px; font-weight: bold; color: {COLOR_MAP[emotion]};'>
+                        <strong>Predicted Emotion:</strong> {emoji} {emotion}
+                    </div>
+                    <p style='text-align: center; font-size: 20px;'><strong>Suggestion:</strong> {suggestion}</p>
+                """, unsafe_allow_html=True)
 
                 # Log the mood entry with a timestamp
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
