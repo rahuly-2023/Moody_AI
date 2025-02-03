@@ -12,9 +12,9 @@ import random
 
 
 # Download necessary NLTK resources (only runs once)
-nltk.download("punkt")
-nltk.download("stopwords")
-nltk.download("wordnet")
+# nltk.download("punkt")
+# nltk.download("stopwords")
+# nltk.download("wordnet")
 
 # Initialize lemmatizer and stop words
 lemmatizer = WordNetLemmatizer()
