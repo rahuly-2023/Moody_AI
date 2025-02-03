@@ -195,7 +195,7 @@ if st.button("🎭 Predict Emotion"):
                 emotion=EMOTIONS[predicted_class]
                 st.write(emotion)
 
-                emoji = EMOJI_MAP[emotion]
+                # emoji = EMOJI_MAP[emotion]
                 # st.write(emoji)
                  # Styled Output
                 # st.markdown(f"""
