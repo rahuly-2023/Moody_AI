@@ -196,7 +196,7 @@ if st.button("🎭 Predict Emotion"):
                 st.write(emotion)
 
                 emoji = EMOJI_MAP[emotion]
-                st.write(emoji)
+                # st.write(emoji)
                  # Styled Output
                 # st.markdown(f"""
                 #     <div style='text-align: center;'>
