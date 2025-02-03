@@ -38,7 +38,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<p class='main-title'>🌟 Moody AI - Emotion Detector</p>", unsafe_allow_html=True)
+# st.markdown("<p class='main-title'>🌟 Moody AI - Emotion Detector</p>", unsafe_allow_html=True)
+st.markdown(
+    "<h1 style='text-align: center; font-size: 32px;'>"
+    "🌟 Moody AI - Emotion Detector"
+    "</h1>",
+    unsafe_allow_html=True
+)
 
 
 
