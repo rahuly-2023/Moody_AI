@@ -10,25 +10,18 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import random
 import os
-import shutil
 
-# Set up a local directory for NLTK data
+# Set up a local directory for NLTK data if needed (helpful in some deployments)
 nltk_data_dir = os.path.join(os.getcwd(), "nltk_data")
 if not os.path.exists(nltk_data_dir):
     os.makedirs(nltk_data_dir)
-os.environ["NLTK_DATA"] = nltk_data_dir
 nltk.data.path.append(nltk_data_dir)
 
-# Download necessary NLTK resources
-nltk.download("punkt")
-nltk.download("stopwords")
-nltk.download("wordnet")
-
-# Copy 'punkt' to 'punkt_tab' if needed
-punkt_path = os.path.join(nltk_data_dir, "tokenizers", "punkt")
-punkt_tab_path = os.path.join(nltk_data_dir, "tokenizers", "punkt_tab")
-if os.path.exists(punkt_path) and not os.path.exists(punkt_tab_path):
-    shutil.copytree(punkt_path, punkt_tab_path)
+# Download necessary NLTK resources (only runs once)
+nltk.download("punkt", download_dir=nltk_data_dir)
+nltk.download("punkt_tab", download_dir=nltk_data_dir)
+nltk.download("stopwords", download_dir=nltk_data_dir)
+nltk.download("wordnet", download_dir=nltk_data_dir)
 
 # Initialize lemmatizer and stop words
 lemmatizer = WordNetLemmatizer()
@@ -93,40 +86,51 @@ def preprocess_input(text):
         st.error(f"Error during preprocessing: {e}")
         return None
 
-# Suggestions pool (same as before) ...
+# Suggestions pool
 suggestions = {
-    0: [ "Give yourself time to feel and process your emotions.",
-         "Listening to uplifting music or watching a comforting movie might help.",
-         "Reach out to someone who can offer a listening ear.",
-         "Remember that sadness is a natural part of the healing process.",
-         "Consider practicing self-compassion and treating yourself with kindness.",
-         "Do something comforting, like a warm bath or watching your favorite show." ],
-    1: [ "Share your happiness with a friend or loved one.",
-         "Capture this moment in a journal or photo to cherish later.",
-         "Spread your joy by doing something kind for someone else.",
-         "Celebrate your accomplishments, no matter how small they may seem.",
-         "Enjoy the moment and be proud of what you’ve achieved.",
-         "Take time to reflect on your positive experiences and embrace gratitude." ],
-    2: [ "Express your love and appreciation to those who matter most.",
-         "Take a moment to reflect on the love in your life and be grateful.",
-         "Do something kind for someone you care about.",
-         "Love yourself as much as you love others—self-care is important.",
-         "Cherish and nurture your relationships to keep them strong.",
-         "Remind yourself that love grows when shared freely." ],
-    3: [ "Take a deep breath and count to ten.",
-         "Try journaling to process your thoughts and emotions.",
-         "Physical activity, like a walk or run, might help release pent-up frustration.",
-         "Try deep breathing exercises to calm down.",
-         "Find a quiet place to reflect and gather your thoughts before reacting.",
-         "Talk it out with someone you trust to release your feelings." ],
-    4: [ "Focus on what you can control and take small steps forward.",
-         "Consider grounding techniques like the 5-4-3-2-1 method.",
-         "Talking to someone you trust can help you feel supported.",
-         "Remind yourself that fear is often just an illusion.",
-         "Focus on positive outcomes rather than imagining worst-case scenarios.",
-         "Practice mindfulness and stay in the present moment." ]
+    0: [  # Sadness
+        "Give yourself time to feel and process your emotions.",
+        "Listening to uplifting music or watching a comforting movie might help.",
+        "Reach out to someone who can offer a listening ear.",
+        "Remember that sadness is a natural part of the healing process.",
+        "Consider practicing self-compassion and treating yourself with kindness.",
+        "Do something comforting, like a warm bath or watching your favorite show."
+    ],
+    1: [  # Joy
+        "Share your happiness with a friend or loved one.",
+        "Capture this moment in a journal or photo to cherish later.",
+        "Spread your joy by doing something kind for someone else.",
+        "Celebrate your accomplishments, no matter how small they may seem.",
+        "Enjoy the moment and be proud of what you’ve achieved.",
+        "Take time to reflect on your positive experiences and embrace gratitude."
+    ],
+    2: [  # Love
+        "Express your love and appreciation to those who matter most.",
+        "Take a moment to reflect on the love in your life and be grateful.",
+        "Do something kind for someone you care about.",
+        "Love yourself as much as you love others—self-care is important.",
+        "Cherish and nurture your relationships to keep them strong.",
+        "Remind yourself that love grows when shared freely."
+    ],
+    3: [  # Anger
+        "Take a deep breath and count to ten.",
+        "Try journaling to process your thoughts and emotions.",
+        "Physical activity, like a walk or run, might help release pent-up frustration.",
+        "Try deep breathing exercises to calm down.",
+        "Find a quiet place to reflect and gather your thoughts before reacting.",
+        "Talk it out with someone you trust to release your feelings."
+    ],
+    4: [  # Fear
+        "Focus on what you can control and take small steps forward.",
+        "Consider grounding techniques like the 5-4-3-2-1 method.",
+        "Talking to someone you trust can help you feel supported.",
+        "Remind yourself that fear is often just an illusion.",
+        "Focus on positive outcomes rather than imagining worst-case scenarios.",
+        "Practice mindfulness and stay in the present moment."
+    ]
 }
 
+# Function to get a randomized suggestion for a given sentiment
 def get_suggestion(sentiment):
     return random.choice(suggestions.get(sentiment, ["Stay positive and take care of yourself."]))
 
