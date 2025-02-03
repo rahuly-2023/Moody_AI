@@ -98,9 +98,9 @@ model = load_emotion_model()
 
 # Define sequence length and emotions
 MAX_LENGTH = 100  
-EMOTIONS = ["sadness", "joy", "love", "anger", "fear"]
-EMOJI_MAP = {"sadness": "😢", "joy": "😊", "love": "❤️", "anger": "😡", "fear": "😨"}
-COLOR_MAP = {"sadness": "blue", "joy": "green", "love": "red", "anger": "orange", "fear": "purple"}
+EMOTIONS = ["sadness", "joy", "love", "anger", "fear", "surprise"]
+EMOJI_MAP = {"sadness": "😢", "joy": "😊", "love": "❤️", "anger": "😡", "fear": "😨", "surprise": "😲"}
+COLOR_MAP = {"sadness": "blue", "joy": "green", "love": "red", "anger": "orange", "fear": "purple", "surprise": "yellow"}
 
 
 # Streamlit UI
@@ -171,6 +171,14 @@ suggestions = {
         "Remind yourself that fear is often just an illusion.",
         "Focus on positive outcomes rather than imagining worst-case scenarios.",
         "Practice mindfulness and stay in the present moment."
+    ],
+    5: [
+        "Take a moment to process this unexpected event.",
+        "Embrace the surprises life throws at you—they make life exciting!",
+        "If it's a good surprise, celebrate it! If not, take a deep breath and adjust.",
+        "Write about what surprised you to reflect on your feelings.",
+        "Share your surprise with someone—it might make for a great story!",
+        "Unexpected moments can lead to new opportunities—stay open to them."
     ]
 }
 
@@ -194,25 +202,25 @@ if st.button("🎭 Predict Emotion"):
 
                 st.write(predicted_class)
 
-                # emotion=EMOTIONS[predicted_class]
-                # emoji = EMOJI_MAP[emotion]
+                emotion=EMOTIONS[predicted_class]
+                emoji = EMOJI_MAP[emotion]
                 
-                # st.markdown(f"""
-                #     <div style='text-align: center; font-size: 24px; font-weight: bold;'>
-                #         <strong>Predicted Emotion:</strong> 
-                #         <span style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</span>
-                #     </div>
-                #     <p style='text-align: center; font-size: 20px;'><strong>💡 Suggestion:</strong> {suggestion}</p>
-                # """, unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div style='text-align: center; font-size: 24px; font-weight: bold;'>
+                        <strong>Predicted Emotion:</strong> 
+                        <span style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</span>
+                    </div>
+                    <p style='text-align: center; font-size: 20px;'><strong>💡 Suggestion:</strong> {suggestion}</p>
+                """, unsafe_allow_html=True)
 
-                # # Log the mood entry with a timestamp
-                # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                # st.session_state.mood_log.append({
-                #     "timestamp": timestamp,
-                #     "input": user_input,
-                #     "emotion": EMOTIONS[predicted_class],
-                #     "suggestion": suggestion
-                # })
+                # Log the mood entry with a timestamp
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                st.session_state.mood_log.append({
+                    "timestamp": timestamp,
+                    "input": user_input,
+                    "emotion": EMOTIONS[predicted_class],
+                    "suggestion": suggestion
+                })
             
             except Exception as e:
                 st.error(f"Error during prediction: {e}")
