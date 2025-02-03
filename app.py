@@ -204,10 +204,10 @@ if st.button("🎭 Predict Emotion"):
 
                 # st.markdown(f"<div class='suggestion-box'><b>💡 Suggestion:</b> {suggestion}</div>", unsafe_allow_html=True)
                 st.markdown(f"""
-                    <div style='text-align: center; font-size: 24px; font-weight: bold; color: {COLOR_MAP[emotion]};'>
-                        <strong>Predicted Emotion:</strong> {emoji} {emotion}
+                    <strong>Predicted Emotion:</strong> <div style='text-align: center; font-size: 24px; font-weight: bold; color: {COLOR_MAP[emotion]};'>
+                         {emoji} {emotion}
                     </div>
-                    <p style='text-align: center; font-size: 20px;'><strong>Suggestion:</strong> {suggestion}</p>
+                    <p style='text-align: center; font-size: 20px;'><strong>💡 Suggestion:</strong> {suggestion}</p>
                 """, unsafe_allow_html=True)
 
                 # Log the mood entry with a timestamp
