@@ -2,33 +2,25 @@ import streamlit as st
 import numpy as np
 import re
 import nltk
-import pickle
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import pickle
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import random
-
-
-# Download necessary NLTK resources (only runs once)
-# nltk.download("punkt")
-# nltk.download("stopwords")
-# nltk.download("wordnet")
-
 import os
+
+# Set up a local directory for NLTK data if needed (helpful in some deployments)
 nltk_data_dir = os.path.join(os.getcwd(), "nltk_data")
 if not os.path.exists(nltk_data_dir):
     os.makedirs(nltk_data_dir)
 nltk.data.path.append(nltk_data_dir)
+
+# Download necessary NLTK resources (only runs once)
 nltk.download("punkt", download_dir=nltk_data_dir)
 nltk.download("stopwords", download_dir=nltk_data_dir)
 nltk.download("wordnet", download_dir=nltk_data_dir)
-
-
-
-
-
 
 # Initialize lemmatizer and stop words
 lemmatizer = WordNetLemmatizer()
@@ -61,7 +53,7 @@ def load_emotion_model():
 tokenizer = load_tokenizer()
 model = load_emotion_model()
 
-# Define sequence length
+# Define sequence length and emotions
 MAX_LENGTH = 100  
 EMOTIONS = ["sadness", "joy", "love", "anger", "fear"]
 
@@ -83,7 +75,6 @@ def preprocess_input(text):
         words = word_tokenize(text)
         cleaned_words = [lemmatizer.lemmatize(word) for word in words if word not in stop_words]
         cleaned_text = ' '.join(cleaned_words)
-        # cleaned_text=text
 
         # Convert text to sequence and pad
         text_seq = tokenizer.texts_to_sequences([cleaned_text])
@@ -93,13 +84,6 @@ def preprocess_input(text):
     except Exception as e:
         st.error(f"Error during preprocessing: {e}")
         return None
-
-
-
-
-
-
-
 
 # Suggestions pool
 suggestions = {
@@ -148,18 +132,6 @@ suggestions = {
 # Function to get a randomized suggestion for a given sentiment
 def get_suggestion(sentiment):
     return random.choice(suggestions.get(sentiment, ["Stay positive and take care of yourself."]))
-
-
-
-
-
-
-
-
-
-
-
-
 
 if st.button("Predict Emotion"):
     if user_input:
