@@ -4,8 +4,8 @@ import re
 # import nltk
 import pickle
 # from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+# from nltk.corpus import stopwords
+# from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import random
@@ -17,8 +17,8 @@ import random
 # nltk.download("wordnet")
 
 # Initialize lemmatizer and stop words
-lemmatizer = WordNetLemmatizer()
-stop_words = set(stopwords.words("english"))
+# lemmatizer = WordNetLemmatizer()
+# stop_words = set(stopwords.words("english"))
 
 # Caching function to load the tokenizer
 @st.cache_resource
@@ -67,8 +67,9 @@ def preprocess_input(text):
 
         # Tokenization & Lemmatization
         # words = word_tokenize(text)
-        cleaned_words = [lemmatizer.lemmatize(word) for word in words if word not in stop_words]
-        cleaned_text = ' '.join(cleaned_words)
+        # cleaned_words = [lemmatizer.lemmatize(word) for word in words if word not in stop_words]
+        # cleaned_text = ' '.join(cleaned_words)
+        cleaned_text=text
 
         # Convert text to sequence and pad
         text_seq = tokenizer.texts_to_sequences([cleaned_text])
