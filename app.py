@@ -16,12 +16,6 @@ import altair as alt
 from datetime import datetime
 
 
-theme = st.radio("Choose a theme:", ["Light", "Dark", "Colorful"])
-if theme == "Dark":
-    st.markdown("<style>body { background-color: black; color: white; }</style>", unsafe_allow_html=True)
-elif theme == "Colorful":
-    st.markdown("<style>body { background: linear-gradient(to right, #ff7e5f, #feb47b); }</style>", unsafe_allow_html=True)
-
 
 
 # Set up a local directory for NLTK data if needed (helpful in some deployments)
