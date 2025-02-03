@@ -159,7 +159,7 @@ if st.button("Predict Emotion"):
                 st.session_state.mood_log.append({
                     "timestamp": timestamp,
                     "input": user_input,
-                    "emotion": emotion,
+                    "emotion": EMOTIONS[predicted_class],
                     "suggestion": suggestion
                 })
             
