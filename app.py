@@ -221,7 +221,7 @@ if st.button("🎭 Predict Emotion"):
 st.subheader("Mood History")
 if st.session_state.mood_log:
     df = pd.DataFrame(st.session_state.mood_log)
-    st.dataframe(df, width=700)
+    st.dataframe(df)
     
     # Create a bar chart showing the distribution of emotions
     chart_data = df.groupby("emotion").size().reset_index(name="counts")
