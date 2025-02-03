@@ -41,7 +41,7 @@ st.markdown("""
 st.markdown(
     "<h1 style='text-align: center; font-size: 32px;'>"
     "🌟 Moody AI - Emotion Detector"
-    "</h1>",
+    "</h1><br>",
     unsafe_allow_html=True
 )
 
