@@ -195,13 +195,13 @@ if st.button("🎭 Predict Emotion"):
                 emotion=EMOTIONS[predicted_class]
                 st.write(emotion)
 
-                # emoji = EMOJI_MAP[EMOTIONS[predicted_class]]
-                #  # Styled Output
-                # st.markdown(f"""
-                #     <div style='text-align: center;'>
-                #         <h2 style='color: {COLOR_MAP[EMOTIONS[predicted_class]]};'>{emoji} {EMOTIONS[predicted_class]}</h2>
-                #     </div>
-                # """, unsafe_allow_html=True)
+                emoji = EMOJI_MAP[emotion]
+                 # Styled Output
+                st.markdown(f"""
+                    <div style='text-align: center;'>
+                        <h2 style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</h2>
+                    </div>
+                """, unsafe_allow_html=True)
 
                 # Log the mood entry with a timestamp
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
