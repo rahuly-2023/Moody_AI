@@ -190,27 +190,29 @@ if st.button("🎭 Predict Emotion"):
             try:
                 prediction = model.predict(preprocessed_input)
                 predicted_class = np.argmax(prediction, axis=1)[0]
-                suggestion = get_suggestion(predicted_class)  
+                suggestion = get_suggestion(predicted_class) 
 
-                emotion=EMOTIONS[predicted_class]
-                emoji = EMOJI_MAP[emotion]
+                st.write(predicted_class)
+
+                # emotion=EMOTIONS[predicted_class]
+                # emoji = EMOJI_MAP[emotion]
                 
-                st.markdown(f"""
-                    <div style='text-align: center; font-size: 24px; font-weight: bold;'>
-                        <strong>Predicted Emotion:</strong> 
-                        <span style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</span>
-                    </div>
-                    <p style='text-align: center; font-size: 20px;'><strong>💡 Suggestion:</strong> {suggestion}</p>
-                """, unsafe_allow_html=True)
+                # st.markdown(f"""
+                #     <div style='text-align: center; font-size: 24px; font-weight: bold;'>
+                #         <strong>Predicted Emotion:</strong> 
+                #         <span style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</span>
+                #     </div>
+                #     <p style='text-align: center; font-size: 20px;'><strong>💡 Suggestion:</strong> {suggestion}</p>
+                # """, unsafe_allow_html=True)
 
-                # Log the mood entry with a timestamp
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                st.session_state.mood_log.append({
-                    "timestamp": timestamp,
-                    "input": user_input,
-                    "emotion": EMOTIONS[predicted_class],
-                    "suggestion": suggestion
-                })
+                # # Log the mood entry with a timestamp
+                # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                # st.session_state.mood_log.append({
+                #     "timestamp": timestamp,
+                #     "input": user_input,
+                #     "emotion": EMOTIONS[predicted_class],
+                #     "suggestion": suggestion
+                # })
             
             except Exception as e:
                 st.error(f"Error during prediction: {e}")
@@ -220,27 +222,9 @@ if st.button("🎭 Predict Emotion"):
         st.warning("Please enter a sentence before predicting.")
 
 
-# st.subheader("Mood History")
-# if st.session_state.mood_log:
-#     df = pd.DataFrame(st.session_state.mood_log)
-#     st.dataframe(df)
-    
-#     # Create a bar chart showing the distribution of emotions
-#     chart_data = df.groupby("emotion").size().reset_index(name="counts")
-#     chart = alt.Chart(chart_data).mark_bar().encode(
-#         x=alt.X("emotion:N", title="Emotion"),
-#         y=alt.Y("counts:Q", title="Count"),
-#         color="emotion:N"
-#     ).properties(title="Mood Distribution")
-    
-#     st.altair_chart(chart, use_container_width=True)
-# else:
-#     st.write("No mood entries yet. Predict your emotion to see history and analytics!")
-
-# Add spacing before Mood History
+# Mood History Section
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# Mood History Section
 st.subheader("📜 Mood History")
 
 if st.session_state.mood_log:
