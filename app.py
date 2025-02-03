@@ -1,11 +1,11 @@
 import streamlit as st
 import numpy as np
 import re
-# import nltk
+import nltk
 import pickle
-# from nltk.tokenize import word_tokenize
-# from nltk.corpus import stopwords
-# from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import random
@@ -16,9 +16,23 @@ import random
 # nltk.download("stopwords")
 # nltk.download("wordnet")
 
+import os
+nltk_data_dir = os.path.join(os.getcwd(), "nltk_data")
+if not os.path.exists(nltk_data_dir):
+    os.makedirs(nltk_data_dir)
+nltk.data.path.append(nltk_data_dir)
+nltk.download("punkt", download_dir=nltk_data_dir)
+nltk.download("stopwords", download_dir=nltk_data_dir)
+nltk.download("wordnet", download_dir=nltk_data_dir)
+
+
+
+
+
+
 # Initialize lemmatizer and stop words
-# lemmatizer = WordNetLemmatizer()
-# stop_words = set(stopwords.words("english"))
+lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words("english"))
 
 # Caching function to load the tokenizer
 @st.cache_resource
@@ -66,10 +80,10 @@ def preprocess_input(text):
         text = text.lower()
 
         # Tokenization & Lemmatization
-        # words = word_tokenize(text)
-        # cleaned_words = [lemmatizer.lemmatize(word) for word in words if word not in stop_words]
-        # cleaned_text = ' '.join(cleaned_words)
-        cleaned_text=text
+        words = word_tokenize(text)
+        cleaned_words = [lemmatizer.lemmatize(word) for word in words if word not in stop_words]
+        cleaned_text = ' '.join(cleaned_words)
+        # cleaned_text=text
 
         # Convert text to sequence and pad
         text_seq = tokenizer.texts_to_sequences([cleaned_text])
