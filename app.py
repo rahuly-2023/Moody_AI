@@ -96,8 +96,8 @@ model = load_emotion_model()
 # Define sequence length and emotions
 MAX_LENGTH = 100  
 EMOTIONS = ["sadness", "joy", "love", "anger", "fear"]
-EMOJI_MAP = {"Sadness": "😢", "Joy": "😊", "Love": "❤️", "Anger": "😡", "Fear": "😨"}
-COLOR_MAP = {"Sadness": "blue", "Joy": "green", "Love": "red", "Anger": "orange", "Fear": "purple"}
+EMOJI_MAP = {"sadness": "😢", "joy": "😊", "love": "❤️", "anger": "😡", "fear": "😨"}
+COLOR_MAP = {"sadness": "blue", "joy": "green", "love": "red", "anger": "orange", "fear": "purple"}
 
 
 # Streamlit UI
@@ -193,16 +193,13 @@ if st.button("🎭 Predict Emotion"):
                 st.write(f"**Suggestion:** {suggestion}")
 
                 emotion=EMOTIONS[predicted_class]
-                st.write(emotion)
-
-                # emoji = EMOJI_MAP[emotion]
-                st.write(EMOJI_MAP["Joy"])
+                emoji = EMOJI_MAP[emotion]
                  # Styled Output
-                # st.markdown(f"""
-                #     <div style='text-align: center;'>
-                #         <h2 style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</h2>
-                #     </div>
-                # """, unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div style='text-align: center;'>
+                        <h2 style='color: {COLOR_MAP[emotion]};'>{emoji} {emotion}</h2>
+                    </div>
+                """, unsafe_allow_html=True)
 
                 # Log the mood entry with a timestamp
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
