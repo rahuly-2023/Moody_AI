@@ -16,6 +16,38 @@ import altair as alt
 from datetime import datetime
 
 
+# Set page config
+st.set_page_config(page_title="Moody AI", page_icon="😃", layout="wide")
+
+# Sidebar Styling
+with st.sidebar:
+    st.title("🔍 About Moody AI")
+    st.write("This AI detects emotions from text and provides personalized suggestions.")
+    st.markdown("---")
+    st.write("💡 **How to Use**:")
+    st.write("1️⃣ Enter a sentence")
+    st.write("2️⃣ Click 'Predict Emotion'")
+    st.write("3️⃣ View results & suggestions")
+    st.markdown("---")
+    st.write("Made with ❤️ using Streamlit")
+
+# UI Styling
+st.markdown("""
+    <style>
+        .main-title { text-align: center; font-size: 36px; font-weight: bold; }
+        .emotion-text { font-size: 24px; font-weight: bold; }
+        .suggestion-box { background-color: #f4f4f4; padding: 15px; border-radius: 10px; }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown("<p class='main-title'>🌟 Moody AI - Emotion Detector</p>", unsafe_allow_html=True)
+
+
+
+
+
+
+
 
 
 # Set up a local directory for NLTK data if needed (helpful in some deployments)
@@ -64,6 +96,9 @@ model = load_emotion_model()
 # Define sequence length and emotions
 MAX_LENGTH = 100  
 EMOTIONS = ["sadness", "joy", "love", "anger", "fear"]
+EMOJI_MAP = {"Sadness": "😢", "Joy": "😊", "Love": "❤️", "Anger": "😡", "Fear": "😨"}
+COLOR_MAP = {"Sadness": "blue", "Joy": "green", "Love": "red", "Anger": "orange", "Fear": "purple"}
+
 
 # Streamlit UI
 st.title("Moody AI")
@@ -146,7 +181,7 @@ def get_suggestion(sentiment):
 if "mood_log" not in st.session_state:
     st.session_state.mood_log = []
 
-if st.button("Predict Emotion"):
+if st.button("🎭 Predict Emotion"):
     if user_input:
         preprocessed_input = preprocess_input(user_input)
         if preprocessed_input is not None and model is not None:
@@ -156,6 +191,14 @@ if st.button("Predict Emotion"):
                 suggestion = get_suggestion(predicted_class)  
                 st.write(f"**Predicted Emotion:** {EMOTIONS[predicted_class]}")
                 st.write(f"**Suggestion:** {suggestion}")
+
+                emoji = EMOJI_MAP[EMOTIONS[predicted_class]]
+                 # Styled Output
+                st.markdown(f"""
+                    <div style='text-align: center;'>
+                        <h2 style='color: {COLOR_MAP[EMOTIONS[predicted_class]]};'>{emoji} {EMOTIONS[predicted_class]}</h2>
+                    </div>
+                """, unsafe_allow_html=True)
 
                 # Log the mood entry with a timestamp
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -177,7 +220,7 @@ if st.button("Predict Emotion"):
 st.subheader("Mood History")
 if st.session_state.mood_log:
     df = pd.DataFrame(st.session_state.mood_log)
-    st.dataframe(df)
+    st.dataframe(df, width=700)
     
     # Create a bar chart showing the distribution of emotions
     chart_data = df.groupby("emotion").size().reset_index(name="counts")
