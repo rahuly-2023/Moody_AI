@@ -200,7 +200,6 @@ if st.button("🎭 Predict Emotion"):
                 predicted_class = np.argmax(prediction, axis=1)[0]
                 suggestion = get_suggestion(predicted_class) 
 
-                st.write(predicted_class)
 
                 emotion=EMOTIONS[predicted_class]
                 emoji = EMOJI_MAP[emotion]
