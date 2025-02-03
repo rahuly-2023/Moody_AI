@@ -238,14 +238,14 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 
 # Mood History Section
 st.subheader("📜 Mood History")
-st.markdown(
-    "<div style='background-color: #f8f9fa; padding: 5px; border-radius: 10px;'>"
-    "<p style='font-size: 14px; text-align: center;'>Your previous mood predictions and suggestions.</p>"
-    "</div><br>",
-    unsafe_allow_html=True
-)
 
 if st.session_state.mood_log:
+    st.markdown(
+        "<div style='background-color: #f8f9fa; padding: 5px; border-radius: 10px;'>"
+        "<p style='font-size: 14px; text-align: center;'>Your previous mood predictions and suggestions.</p>"
+        "</div><br>",
+        unsafe_allow_html=True
+    )
     df = pd.DataFrame(st.session_state.mood_log)
 
     # Style the DataFrame
