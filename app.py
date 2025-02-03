@@ -1,9 +1,9 @@
 import streamlit as st
 import numpy as np
 import re
-import nltk
+# import nltk
 import pickle
-from nltk.tokenize import word_tokenize
+# from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
@@ -66,7 +66,7 @@ def preprocess_input(text):
         text = text.lower()
 
         # Tokenization & Lemmatization
-        words = word_tokenize(text)
+        # words = word_tokenize(text)
         cleaned_words = [lemmatizer.lemmatize(word) for word in words if word not in stop_words]
         cleaned_text = ' '.join(cleaned_words)
 
