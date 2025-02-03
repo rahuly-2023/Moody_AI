@@ -28,8 +28,6 @@ with st.sidebar:
     st.write("1️⃣ Enter a sentence")
     st.write("2️⃣ Click 'Predict Emotion'")
     st.write("3️⃣ View results & suggestions")
-    st.markdown("---")
-    st.write("Made with ❤️ using Streamlit")
 
 # UI Styling
 st.markdown("""
@@ -218,19 +216,80 @@ if st.button("🎭 Predict Emotion"):
         st.warning("Please enter a sentence before predicting.")
 
 
-st.subheader("Mood History")
+# st.subheader("Mood History")
+# if st.session_state.mood_log:
+#     df = pd.DataFrame(st.session_state.mood_log)
+#     st.dataframe(df)
+    
+#     # Create a bar chart showing the distribution of emotions
+#     chart_data = df.groupby("emotion").size().reset_index(name="counts")
+#     chart = alt.Chart(chart_data).mark_bar().encode(
+#         x=alt.X("emotion:N", title="Emotion"),
+#         y=alt.Y("counts:Q", title="Count"),
+#         color="emotion:N"
+#     ).properties(title="Mood Distribution")
+    
+#     st.altair_chart(chart, use_container_width=True)
+# else:
+#     st.write("No mood entries yet. Predict your emotion to see history and analytics!")
+
+# Add spacing before Mood History
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+# Mood History Section
+st.subheader("📜 Mood History")
+st.markdown(
+    "<div style='background-color: #f8f9fa; padding: 15px; border-radius: 10px;'>"
+    "<p style='font-size: 16px; text-align: center;'>Your previous mood predictions and suggestions.</p>"
+    "</div><br>",
+    unsafe_allow_html=True
+)
+
 if st.session_state.mood_log:
     df = pd.DataFrame(st.session_state.mood_log)
-    st.dataframe(df)
-    
+
+    # Style the DataFrame
+    styled_df = df.style.set_properties(
+        **{
+            "text-align": "center",
+            "background-color": "#f4f4f4",
+            "border-radius": "10px",
+            "padding": "5px",
+        }
+    ).set_table_styles(
+        [
+            {"selector": "th", "props": [("background-color", "#007bff"), ("color", "white"), ("font-size", "16px")]}
+        ]
+    )
+
+    st.dataframe(df, use_container_width=True)
+
+    # Add spacing before Mood Distribution
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # Mood Distribution Section
+    st.subheader("📊 Mood Distribution")
+    st.markdown(
+        "<div style='background-color: #e9ecef; padding: 15px; border-radius: 10px;'>"
+        "<p style='font-size: 16px; text-align: center;'>A visual representation of your emotions over time.</p>"
+        "</div><br>",
+        unsafe_allow_html=True
+    )
+
     # Create a bar chart showing the distribution of emotions
     chart_data = df.groupby("emotion").size().reset_index(name="counts")
-    chart = alt.Chart(chart_data).mark_bar().encode(
-        x=alt.X("emotion:N", title="Emotion"),
+    chart = alt.Chart(chart_data).mark_bar(cornerRadius=8).encode(
+        x=alt.X("emotion:N", title="Emotion", sort="-y"),
         y=alt.Y("counts:Q", title="Count"),
-        color="emotion:N"
-    ).properties(title="Mood Distribution")
-    
+        color=alt.Color("emotion:N", scale=alt.Scale(scheme="tableau20")),
+        tooltip=["emotion", "counts"]
+    ).properties(
+        title="Mood Distribution Over Time",
+        width=700,
+        height=400
+    ).configure_title(fontSize=18, anchor="middle")
+
     st.altair_chart(chart, use_container_width=True)
+
 else:
     st.write("No mood entries yet. Predict your emotion to see history and analytics!")
