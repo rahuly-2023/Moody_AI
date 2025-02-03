@@ -38,7 +38,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# st.markdown("<p class='main-title'>🌟 Moody AI - Emotion Detector</p>", unsafe_allow_html=True)
 st.markdown(
     "<h1 style='text-align: center; font-size: 32px;'>"
     "🌟 Moody AI - Emotion Detector"
@@ -105,7 +104,6 @@ COLOR_MAP = {"sadness": "blue", "joy": "green", "love": "red", "anger": "orange"
 
 
 # Streamlit UI
-st.title("Moody AI")
 user_input = st.text_input("Enter a sentence for emotion detection:")
 
 def preprocess_input(text):
