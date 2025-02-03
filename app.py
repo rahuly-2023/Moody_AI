@@ -10,6 +10,10 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import random
 import os
+import shutil
+import pandas as pd
+import altair as alt
+from datetime import datetime
 
 # Set up a local directory for NLTK data if needed (helpful in some deployments)
 nltk_data_dir = os.path.join(os.getcwd(), "nltk_data")
@@ -134,6 +138,11 @@ suggestions = {
 def get_suggestion(sentiment):
     return random.choice(suggestions.get(sentiment, ["Stay positive and take care of yourself."]))
 
+
+# Initialize mood log in session state
+if "mood_log" not in st.session_state:
+    st.session_state.mood_log = []
+
 if st.button("Predict Emotion"):
     if user_input:
         preprocessed_input = preprocess_input(user_input)
@@ -144,9 +153,37 @@ if st.button("Predict Emotion"):
                 suggestion = get_suggestion(predicted_class)  
                 st.write(f"**Predicted Emotion:** {EMOTIONS[predicted_class]}")
                 st.write(f"**Suggestion:** {suggestion}")
+
+                # Log the mood entry with a timestamp
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                st.session_state.mood_log.append({
+                    "timestamp": timestamp,
+                    "input": user_input,
+                    "emotion": emotion,
+                    "suggestion": suggestion
+                })
+            
             except Exception as e:
                 st.error(f"Error during prediction: {e}")
         else:
             st.warning("Could not process the input. Please try again.")
     else:
         st.warning("Please enter a sentence before predicting.")
+
+
+st.subheader("Mood History")
+if st.session_state.mood_log:
+    df = pd.DataFrame(st.session_state.mood_log)
+    st.dataframe(df)
+    
+    # Create a bar chart showing the distribution of emotions
+    chart_data = df.groupby("emotion").size().reset_index(name="counts")
+    chart = alt.Chart(chart_data).mark_bar().encode(
+        x=alt.X("emotion:N", title="Emotion"),
+        y=alt.Y("counts:Q", title="Count"),
+        color="emotion:N"
+    ).properties(title="Mood Distribution")
+    
+    st.altair_chart(chart, use_container_width=True)
+else:
+    st.write("No mood entries yet. Predict your emotion to see history and analytics!")
